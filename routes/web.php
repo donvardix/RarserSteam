@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'ChartController@index')->name('index');
+Route::resource('dashboard', 'ItemController')->names('items');
+Route::get('parser', 'ParserController@parser');
+
+Route::get('/{id}', 'ChartController@show')->name('show');
