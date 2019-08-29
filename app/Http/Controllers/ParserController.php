@@ -5,12 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\DateParser;
 use App\Models\Item;
 use App\Models\Parser;
+use App\Services\Parser as ParserService;
 use Illuminate\Http\Request;
 
 class ParserController extends Controller
 {
-    public function parser(Request $request)
+    public function parser(ParserService $parser)
     {
+
+        dd($parser->issetItemSteam(570, 'Reaper\'s Wreath'));
+
+
         $parserData = [];
         $items = Item::all();
         $date = DateParser::create();
@@ -29,6 +34,7 @@ class ParserController extends Controller
                 ];
             }*/
             $steamApiMarketInfo = 'https://steamcommunity.com/market/listings/' . $item->game_id . '/' . $item->hash_name . '/render?count=1&currency=1';
+            // https://steamcommunity.com/market/listings/570/Hydrakan%20Latch/render?count=1&currency=1
             $marketInfo = json_decode(file_get_contents($steamApiMarketInfo));
             $parserData[] = [
                 'total_count' => $marketInfo->total_count,

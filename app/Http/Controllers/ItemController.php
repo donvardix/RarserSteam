@@ -2,86 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use App\Repositories\ItemRepository;
 use Illuminate\Http\Request;
+use App\Services\Parser;
 
 class ItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param ItemRepository $itemsRepo
-     * @return dashboard.index
-     */
     public function index(ItemRepository $itemsRepo)
     {
-        $items = $itemsRepo->all();
+        $items = $itemsRepo->getAllItems();
         return view('dashboard.index', compact('items'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request, Parser $parser)
     {
-        //
+        $itemHashName = $parser->nameToHash($request->name); // TODO Сделать хелпер
+        $issetItemSteam = $parser->issetItemSteam($request->gameId, $itemHashName); // Проверка на существование придмета в ТП Steam
+        $issetItemDB = $parser->issetItemDB($request->name); // Проверка на существование придмета в БД
+        if ($issetItemSteam && !$issetItemDB) {
+            Item::create([ // TODO Вынести в отдельный файл метод добавления item в БД
+                'name' => $request->name,
+                'hash_name' => $itemHashName,
+                'game_id' => $request->gameId
+            ]);
+            return response()->json(['success' => 1]);
+        }
+        return response()->json(['success' => 0], 500); // TODO Подумать на статусом ответа
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Item $item)
     {
-        //
+        $item->delete(); // TODO Пофиксить. В представлении отправлять delete, а не get
+        return redirect()->route('items.index');
     }
 }

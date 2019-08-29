@@ -3,7 +3,7 @@ $("#add-item").on('submit', function (e) {
     var formData = new FormData(this);
     $.ajax({
         type: 'POST',
-        url: '/items',
+        url: '/dashboard',
         data: formData,
         cache: false,
         processData: false,

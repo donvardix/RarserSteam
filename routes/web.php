@@ -11,8 +11,9 @@
 |
 */
 
-Route::get('/', 'ChartController@index')->name('index');
+Route::get('test', 'TestController@test');
+
 Route::resource('dashboard', 'ItemController')->names('items');
 Route::get('parser', 'ParserController@parser');
 
-Route::get('/{id}', 'ChartController@show')->name('show');
+Route::get('/{id?}', 'ChartController@index')->name('index');

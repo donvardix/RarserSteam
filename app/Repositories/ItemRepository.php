@@ -16,23 +16,12 @@ class ItemRepository
         $this->model = app(Item::class);
     }
 
-    public function all()
+    public function getAllItems()
     {
         return $this->model->all();
     }
 
-    public function find($id)
-    {
-        $item = $this->model->find($id);
-        return $item ? $item->name : false;
-    }
-
-    public function firstName()
-    {
-        return $this->model->first()->name;
-    }
-
-    public function json($itemName)
+    public function toJson($itemName)
     {
         $json = [];
         $parsers = Parser::with('item', 'date')

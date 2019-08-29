@@ -17,7 +17,7 @@
             <a target="_blank"
                href="https://steamcommunity.com/market/listings/{{ $item->game_id }}/{{ $item->hash_name }}"><img
                     src="/images/steam.png" width="20px" alt="Steam icon"></a>
-            <a href="{{ route('show', $item->id) }}">{{ $item->name }}</a>
+            <a href="{{ route('index', $item->id) }}">{{ $item->name }}</a>
             <br>
         @endforeach
     </div>
