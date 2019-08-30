@@ -13,7 +13,7 @@
 
 Route::get('test', 'TestController@test');
 
-Route::resource('dashboard', 'ItemController')->names('items');
+Route::resource('dashboard', 'DashboardController')->names('items');
 Route::get('parser', 'ParserController@parser');
 
 Route::get('/{id?}', 'ChartController@index')->name('index');

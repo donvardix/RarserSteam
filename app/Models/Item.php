@@ -9,7 +9,7 @@ class Item extends Model
     protected $fillable = [
         'name',
         'hash_name',
-        'game_id'
+        'app_id'
     ];
 
     public function parsers()

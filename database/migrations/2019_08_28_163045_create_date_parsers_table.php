@@ -15,7 +15,8 @@ class CreateDateParsersTable extends Migration
     {
         Schema::create('date_parsers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamp('created_at')->nullable();
+            $table->unsignedBigInteger('unix');
+            $table->timestamps();
         });
     }
 

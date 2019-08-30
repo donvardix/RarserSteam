@@ -17,7 +17,7 @@ class CreateItemsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->unique();
             $table->string('hash_name');
-            $table->string('game_id');
+            $table->string('app_id');
             $table->timestamps();
         });
     }
