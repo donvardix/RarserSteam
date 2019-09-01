@@ -1,13 +1,11 @@
 <?php
 
-
 namespace App\Services;
-
 
 use App\Models\DateParser;
 use App\Models\Item;
 use App\Models\Parser;
-use App\Services\HelpersService as Helper;
+use App\Services\HelperService as Helper;
 
 class ParserService
 {
@@ -87,7 +85,7 @@ class ParserService
         $items = Item::select('id', 'hash_name', 'app_id')->get();
 
         $date = DateParser::create(['unix' => Helper::nowUnix()]);
-        foreach ($items as $item){
+        foreach ($items as $item) {
             $url = self::getUrlSteamMarket($item->app_id, $item->hash_name);
             $json = self::getJsonFromUrl($url);
             $parserData[] = [

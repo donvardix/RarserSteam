@@ -1,12 +1,10 @@
 <?php
 
-
 namespace App\Services;
-
 
 use Carbon\Carbon;
 
-class HelpersService
+class HelperService
 {
     /**
      * Преобразует Name в Hash Name (Sullen Rampart -> Sullen%20Rampart)

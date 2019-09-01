@@ -4,15 +4,12 @@ namespace App\Http\Controllers;
 
 
 use App\Services\ItemService;
+use App\Services\HelperService as Helper;
 
 class TestController extends Controller
 {
     public function test()
     {
-        $json = ItemService::toJson('Reaper\'s Wreath');
-        //$jsonNew = ItemService::toJsonNew('Reaper\'s Wreath');
-        //return response()->json($json);
-        return $json;
     }
 
     //Парсинг кол-во продаж за сутки, средняя стоимость предмета и стоимость последней продажи

@@ -12,7 +12,8 @@ $("#add-item").on('submit', function (e) {
         beforeSend: function () {
             $("#waiting-createTable").show();
         },
-        success: function () {
+        success: function (data) {
+            console.log(data);
             $("#waiting-createTable").hide();
             $("#success-createTable").show();
             setTimeout(function () {
