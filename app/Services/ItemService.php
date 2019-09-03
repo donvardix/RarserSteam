@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Item;
 use App\Models\Parser;
 use App\Services\HelperService as Helper;
+use App\Services\ResponseService as Response;
 
 class ItemService
 {
@@ -17,47 +18,34 @@ class ItemService
     public static function getName($id, $items)
     {
         $items = $items->keyBy('id');
-        if ($items->isEmpty()) { // Если таблица пуста выводить ошибку
+        if ($items->isEmpty()) {
             return null;
         }
-        if (is_null($id)) { // Если $id равен null, то присваеваем $id имя первого элемента из колекции
+        if (is_null($id)) {
             $id = $items->first()->id;
         }
         $itemName = $items->get($id)->name ?? null;
         return $itemName;
     }
 
-    public static function storeItem($request) // TODO Создать отдельный класс для ошибок
+    public static function storeItem($item)
     {
-        $itemHashName = Helper::nameToHash($request->name);
-        $url = ParserService::getUrlSteamSales($request->gameId, $itemHashName);
-
+        $itemHashName = Helper::nameToHash($item['name']);
+        $url = ParserService::getUrlSteamSales($item['appId'], $itemHashName);
         $existItemSteam = ParserService::getJsonFromUrl($url);
-        if (!$existItemSteam) { // Если $existItemSteam равен false, то возвращяем ошибку
-            return [
-                'success' => 0,
-                'errors' => [
-                    'Предмета не существует'
-                ]
-            ];
+        if (!$existItemSteam) { // Проверка на существование такого предмета на ТП Steam
+            return Response::error(['notExist']);
         }
-
-        $existItemDB = ParserService::issetItemDB($request->name);
-        if ($existItemDB) { // Если $existItemDB равен false, то возвращяем ошибку
-            return [
-                'success' => 0,
-                'errors' => [
-                    'Предмет уже есть в нашей базе данных'
-                ]
-            ];
+        $existItemDB = ParserService::issetItemDB($item['name']);
+        if ($existItemDB) { // Проверка на существование такого предмета в БД
+            return Response::error(['existToDB']);
         }
-
         Item::create([
-            'name' => $request->name,
+            'name' => $item['name'],
             'hash_name' => $itemHashName,
-            'app_id' => $request->gameId
+            'app_id' => $item['appId']
         ]);
-        return ['success' => 1];
+        return Response::ok();
     }
 
     public static function toJson($itemName)

@@ -13,7 +13,6 @@ $("#add-item").on('submit', function (e) {
             $("#waiting-createTable").show();
         },
         success: function (data) {
-            console.log(data);
             $("#waiting-createTable").hide();
             $("#success-createTable").show();
             setTimeout(function () {

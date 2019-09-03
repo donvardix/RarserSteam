@@ -3,19 +3,16 @@
 namespace App\Http\Controllers;
 
 
-use App\Services\ItemService;
+use App\Services\ResponseService as Response;
 use App\Services\HelperService as Helper;
+use Illuminate\Support\Arr;
 
 class TestController extends Controller
 {
-    public function test(Helper $hel)
+    public function test()
     {
-        //$newClass = new Helper();
-        $res = $hel
-            ->x2(2)
-            ->x3();
-
-        dump($res);
+        //return Response::error(['notExist', 'notExist2']);
+        return Response::ok();
     }
 
     //Парсинг кол-во продаж за сутки, средняя стоимость предмета и стоимость последней продажи

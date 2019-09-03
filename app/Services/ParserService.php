@@ -6,6 +6,7 @@ use App\Models\DateParser;
 use App\Models\Item;
 use App\Models\Parser;
 use App\Services\HelperService as Helper;
+use App\Services\ResponseService as Response;
 
 class ParserService
 {
@@ -95,6 +96,6 @@ class ParserService
             ];
         }
         Parser::insert($parserData);
-        return true;
+        return Response::ok();
     }
 }

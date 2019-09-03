@@ -46,7 +46,7 @@
                     <div class="row">
                         <div class="col-4 pr-0">
                             <label for="game-id" class="sr-only">Game ID</label>
-                            <select id="game-id" name="gameId" class="custom-select">
+                            <select id="game-id" name="appId" class="custom-select">
                                 <option value="570" selected>Dota 2</option>
                                 <option value="1">CS:GO</option>
                             </select>

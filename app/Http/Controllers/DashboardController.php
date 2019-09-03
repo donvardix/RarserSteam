@@ -21,7 +21,7 @@ class DashboardController extends Controller
 
     public function store(Request $request)
     {
-        $success = ItemService::storeItem($request->all());
+        $success = ItemService::storeItem($request->only(['name', 'appId']));
         return response()->json($success);
     }
 
