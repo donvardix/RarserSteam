@@ -18,18 +18,12 @@ class ItemService
     {
         $items = $items->keyBy('id');
         if ($items->isEmpty()) { // Если таблица пуста выводить ошибку
-            return false;
+            return null;
         }
-
         if (is_null($id)) { // Если $id равен null, то присваеваем $id имя первого элемента из колекции
             $id = $items->first()->id;
         }
-
         $itemName = $items->get($id)->name ?? null;
-        if (is_null($itemName)) { // Если $itemName равен null, то выводить ошибку
-            return false;
-        }
-
         return $itemName;
     }
 

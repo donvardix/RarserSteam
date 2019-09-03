@@ -10,7 +10,7 @@ class ChartController extends Controller
     {
         $items = ItemService::getItemNames();
         $itemName = ItemService::getName($id, $items);
-        if (!$itemName) {
+        if (is_null($itemName)) {
             abort(404);
         }
         $jsonData = ItemService::toJson($itemName);

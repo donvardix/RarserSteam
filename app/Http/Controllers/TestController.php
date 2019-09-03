@@ -8,8 +8,14 @@ use App\Services\HelperService as Helper;
 
 class TestController extends Controller
 {
-    public function test()
+    public function test(Helper $hel)
     {
+        //$newClass = new Helper();
+        $res = $hel
+            ->x2(2)
+            ->x3();
+
+        dump($res);
     }
 
     //Парсинг кол-во продаж за сутки, средняя стоимость предмета и стоимость последней продажи
