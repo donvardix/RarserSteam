@@ -9,7 +9,7 @@ use App\Services\ResponseService as Response;
 
 class ItemService
 {
-    public static function getItemNames($columns = ['id', 'name'])
+    public static function getAllItem($columns = ['id', 'name', 'app_id', 'hash_name'])
     {
         $items = Item::select($columns)->get();
         return $items;

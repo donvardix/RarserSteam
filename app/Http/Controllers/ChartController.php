@@ -8,7 +8,7 @@ class ChartController extends Controller
 {
     public function index($id = null)
     {
-        $items = ItemService::getItemNames();
+        $items = ItemService::getAllItem();
         $itemName = ItemService::getName($id, $items);
         if (is_null($itemName)) {
             abort(404);

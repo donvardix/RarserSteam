@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $items = ItemService::getItemNames();
+        $items = ItemService::getAllItem(['id', 'name']);
         return view('dashboard.index', compact('items'));
     }
 

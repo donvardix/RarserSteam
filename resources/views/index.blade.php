@@ -15,8 +15,8 @@
     <div id="list">
         @foreach ($items as $item)
             <a target="_blank"
-               href="https://steamcommunity.com/market/listings/{{ $item->game_id }}/{{ $item->hash_name }}"><img
-                    src="/images/steam.png" width="20px" alt="Steam icon"></a>
+               href="https://steamcommunity.com/market/listings/{{ $item->app_id }}/{{ $item->hash_name }}"><img
+                    src="/images/steam.png" width="20" alt="Steam icon"></a>
             <a href="{{ route('index', $item->id) }}">{{ $item->name }}</a>
             <br>
         @endforeach
