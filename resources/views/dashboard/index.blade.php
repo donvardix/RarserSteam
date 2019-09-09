@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Admin Panel</title>
@@ -35,53 +36,48 @@
             </ul>
         </div>
     </nav>
+    <hr>
     <div class="row">
         <div class="col">
-            <hr>
             <h2 class="text-center">Add item</h2>
             <hr>
-            <form id="add-item" class="mb-2" action="" method="post">
-                @csrf
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-4 pr-0">
-                            <label for="game-id" class="sr-only">Game ID</label>
-                            <select id="game-id" name="appId" class="custom-select">
-                                <option value="570" selected>Dota 2</option>
-                                <option value="1">CS:GO</option>
-                            </select>
-                            <label for="nameItem" class="sr-only">Name item</label>
-                            <input id="nameItem" class="form-control mr-sm-3" name="name" type="text"
-                                   placeholder="Name item">
-                        </div>
-                        <div class="col-2">
-                            <button type="submit" class="btn btn-primary">Add</button>
-                        </div>
-                        <div class="col-2 pl-0">
-                            <div id="waiting-createTable" class="spinner-border" role="status" style="display: none;">
-                                <span class="sr-only">Loading...</span>
-                            </div>
-                            <span id="success-createTable" class="align-middle text-success"
-                                  style="display: none;">Done</span>
-                            <span id="error-createTable" class="align-middle text-danger" style="display: none;">Table exists</span>
-                        </div>
-                    </div>
+            <div class="row mb-2">
+                <div class="col-3">
+                    <label for="appId" class="sr-only">Game ID</label>
+                    <select id="appId" name="appId" class="custom-select">
+                        <option value="570" selected>Dota 2</option>
+                        <option value="730">CS:GO</option>
+                    </select>
                 </div>
-            </form>
+                <div class="col-9">
+                    <label for="nameItem" class="sr-only">Name item</label>
+                    <input id="nameItem" class="form-control" name="nameItem" type="text"
+                           placeholder="Name item">
+                </div>
+            </div>
             <div class="row">
                 <div class="col-5">
-                    <button id="parser" class="btn btn-warning btn-block" type="button">Start parser</button>
+                    <button id="addItem" class="btn btn-primary btn-block" type="button">Add</button>
                 </div>
-                <div class="col pl-0">
+                <div class="col-2 pl-0">
                     <div id="waiting-parser" class="spinner-border" role="status" style="display: none;">
                         <span class="sr-only">Loading...</span>
                     </div>
                     <span id="success-parser" class="align-middle text-success" style="display: none;">Done</span>
+                    <div id="waiting-createTable" class="spinner-border" role="status" style="display: none;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <span id="success-createTable" class="align-middle text-success"
+                          style="display: none;">Done</span>
+                    <span id="error-createTable" class="align-middle text-danger"
+                          style="display: none;">Table exists</span>
+                </div>
+                <div class="col-5">
+                    <button id="parser" class="btn btn-warning btn-block" type="button">Start parser</button>
                 </div>
             </div>
         </div>
         <div class="col">
-            <hr>
             <h2 class="text-center mb-3">List of items</h2>
             <table class="table">
                 <thead>

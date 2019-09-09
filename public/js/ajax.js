@@ -1,10 +1,18 @@
-$("#add-item").on('submit', function (e) {
-    e.preventDefault();
-    var formData = new FormData(this);
+$("#addItem").on('click', function (e) {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    let appId = $("#appId").val();
+    let nameItem = $("#nameItem").val();
     $.ajax({
         type: 'POST',
         url: '/dashboard',
-        data: formData,
+        data: {
+            "appId": appId,
+            "nameItem": nameItem
+        },
         cache: false,
         processData: false,
         contentType: false,
@@ -12,7 +20,7 @@ $("#add-item").on('submit', function (e) {
         beforeSend: function () {
             $("#waiting-createTable").show();
         },
-        success: function (data) {
+        success: function () {
             $("#waiting-createTable").hide();
             $("#success-createTable").show();
             setTimeout(function () {

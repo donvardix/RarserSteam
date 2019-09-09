@@ -30,18 +30,18 @@ class ItemService
 
     public static function storeItem($item)
     {
-        $itemHashName = Helper::nameToHash($item['name']);
+        $itemHashName = Helper::nameToHash($item['nameItem']);
         $url = ParserService::getUrlSteamSales($item['appId'], $itemHashName);
         $existItemSteam = ParserService::getJsonFromUrl($url);
         if (!$existItemSteam) { // Проверка на существование такого предмета на ТП Steam
             return Response::error(['notExist']);
         }
-        $existItemDB = ParserService::issetItemDB($item['name']);
+        $existItemDB = ParserService::issetItemDB($item['nameItem']);
         if ($existItemDB) { // Проверка на существование такого предмета в БД
             return Response::error(['existToDB']);
         }
         Item::create([
-            'name' => $item['name'],
+            'name' => $item['nameItem'],
             'hash_name' => $itemHashName,
             'app_id' => $item['appId']
         ]);

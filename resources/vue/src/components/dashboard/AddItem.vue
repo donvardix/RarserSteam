@@ -1,0 +1,77 @@
+<template>
+    <div class="col">
+        <h2 class="text-center">{{ title }}</h2>
+        <hr>
+        <div class="row">
+            <div class="col-3">
+                <label for="appId" class="sr-only">App ID</label>
+                <select id="appId" name="appId" class="custom-select" v-model="appId">
+                    <option v-for="game in games" v-bind:value="game.value">
+                        {{ game.text }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-9">
+                <label for="nameItem" class="sr-only">Name item</label>
+                <input id="nameItem" class="form-control" name="nameItem" type="text"
+                       placeholder="Name item">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <button id="addItem" class="btn btn-primary btn-block" type="button">Add</button>
+            </div>
+            <div class="col-2 pl-0">
+                <div id="waiting-parser" class="spinner-border" role="status" style="display: none;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <span id="success-parser" class="align-middle text-success" style="display: none;">Done</span>
+                <div id="waiting-createTable" class="spinner-border" role="status" style="display: none;">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <span id="success-createTable" class="align-middle text-success"
+                      style="display: none;">Done</span>
+                <span id="error-createTable" class="align-middle text-danger"
+                      style="display: none;">Table exists</span>
+            </div>
+            <div class="col-5">
+                <button id="parser" class="btn btn-warning btn-block" type="button">Start parser</button>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import axios from 'axios'
+
+    export default {
+        name: 'AddItem',
+        data() {
+            return {
+                title: 'Add item',
+                appId: 570,
+                games: [
+                    { text: 'Dota 2', value: 570 },
+                    { text: 'CS:GO', value: 730 }
+                ],
+                nameItem : ''
+            }
+        },
+        methods: {
+            addItem (){
+                let memberData = {
+                    appId: this.appId,
+                    nameItem: this.nameItem
+                };
+                axios.post('/store', memberData).then(respond => {
+                    if (respond.data.email === 'error') {
+                        this.showEmailError = true
+                    } else {
+                        this.$store.dispatch('nextStep');
+                        this.$store.dispatch('countMembers')
+                    }
+                })
+            }
+        }
+    }
+</script>
