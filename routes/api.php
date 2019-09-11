@@ -14,3 +14,4 @@ use Illuminate\Http\Request;
 */
 
 Route::apiResource('items', 'API\ItemController');
+Route::get('parser', 'API\ParserController@start');

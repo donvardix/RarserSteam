@@ -13,13 +13,13 @@
             </div>
             <div class="col-9">
                 <label for="nameItem" class="sr-only">Name item</label>
-                <input id="nameItem" class="form-control" name="nameItem" type="text"
+                <input v-model="nameItem" id="nameItem" class="form-control" name="nameItem" type="text"
                        placeholder="Name item">
             </div>
         </div>
         <div class="row">
             <div class="col-5">
-                <button id="addItem" class="btn btn-primary btn-block" type="button">Add</button>
+                <button @click="addItem" id="addItem" class="btn btn-primary btn-block" type="button">Add</button>
             </div>
             <div class="col-2 pl-0">
                 <div id="waiting-parser" class="spinner-border" role="status" style="display: none;">
@@ -35,7 +35,7 @@
                       style="display: none;">Table exists</span>
             </div>
             <div class="col-5">
-                <button id="parser" class="btn btn-warning btn-block" type="button">Start parser</button>
+                <button @click="startParser" id="parser" class="btn btn-warning btn-block" type="button">Start parser</button>
             </div>
         </div>
     </div>
@@ -51,25 +51,31 @@
                 title: 'Add item',
                 appId: 570,
                 games: [
-                    { text: 'Dota 2', value: 570 },
-                    { text: 'CS:GO', value: 730 }
+                    {text: 'Dota 2', value: 570},
+                    {text: 'CS:GO', value: 730}
                 ],
-                nameItem : ''
+                nameItem: ''
             }
         },
         methods: {
-            addItem (){
+            addItem() {
                 let memberData = {
                     appId: this.appId,
                     nameItem: this.nameItem
                 };
-                axios.post('/store', memberData).then(respond => {
-                    if (respond.data.email === 'error') {
-                        this.showEmailError = true
+                axios.post('/api/items', memberData).then(response => {
+                    if (response.data.success === 1) {
+                        this.$store.dispatch('getItems')
+                    } else if (response.data.success === 0){
+                        console.log(response.data)
                     } else {
-                        this.$store.dispatch('nextStep');
-                        this.$store.dispatch('countMembers')
+                        console.log('Unknown error')
                     }
+                })
+            },
+            startParser() {
+                axios.get('/api/parser').then(response => {
+                    console.log('OK')
                 })
             }
         }
