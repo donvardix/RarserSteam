@@ -15,6 +15,6 @@ class ChartController extends Controller
         }
         $jsonData = ItemService::toJson($itemName);
 
-        return view('index', compact('items', 'itemName', 'jsonData'));
+        return view('chart', compact('items', 'itemName', 'jsonData'));
     }
 }

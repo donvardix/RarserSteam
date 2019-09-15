@@ -14,9 +14,9 @@
                 <th scope="row">{{ item.id }}</th>
                 <td>{{ item.name }}</td>
                 <td>
-                    <a href="" class="close" aria-label="Close">
+                    <button @click="deleteItem(item.id)" class="close" aria-label="Close" type="button">
                         <span aria-hidden="true">&times;</span>
-                    </a>
+                    </button>
                 </td>
             </tr>
             </tbody>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+    import axios from 'axios'
+
     export default {
         name: 'ItemList',
         data() {
@@ -39,6 +41,12 @@
         },
         created() {
             this.$store.dispatch('getItems')
+        },
+        methods: {
+            deleteItem(id) {
+                axios.delete('api/items/' + id);
+                this.$store.dispatch('getItems');
+            }
         }
     }
 </script>

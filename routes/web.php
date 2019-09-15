@@ -13,7 +13,9 @@
 
 Route::get('test', 'TestController@test');
 
-Route::resource('dashboard', 'DashboardController')->names('items');
-Route::get('parser', 'ParserController@parser');
+//Route::resource('dashboard', 'DashboardController')->names('items');
+//Route::get('parser', 'ParserController@parser');
 
-Route::get('/{id?}', 'ChartController@index')->name('index');
+Route::get('chart/{id?}', 'ChartController@index')->name('index');
+
+Route::get('/{any}', 'SpaController@index')->where('any', '.*');

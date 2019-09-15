@@ -21,21 +21,15 @@
             <div class="col-5">
                 <button @click="addItem" id="addItem" class="btn btn-primary btn-block" type="button">Add</button>
             </div>
-            <div class="col-2 pl-0">
-                <div id="waiting-parser" class="spinner-border" role="status" style="display: none;">
+            <div class="col-2 d-flex justify-content-center">
+                <div v-if="wait" class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
-                <span id="success-parser" class="align-middle text-success" style="display: none;">Done</span>
-                <div id="waiting-createTable" class="spinner-border" role="status" style="display: none;">
-                    <span class="sr-only">Loading...</span>
-                </div>
-                <span id="success-createTable" class="align-middle text-success"
-                      style="display: none;">Done</span>
-                <span id="error-createTable" class="align-middle text-danger"
-                      style="display: none;">Table exists</span>
+                <span v-if="success" class="align-middle text-success">Done</span>
+                <span v-if="error" class="align-middle text-danger">Error</span>
             </div>
             <div class="col-5">
-                <button @click="startParser" id="parser" class="btn btn-warning btn-block" type="button">Start parser</button>
+                <button @click="startParser" class="btn btn-warning btn-block" type="button">Start parser</button>
             </div>
         </div>
     </div>
@@ -54,29 +48,56 @@
                     {text: 'Dota 2', value: 570},
                     {text: 'CS:GO', value: 730}
                 ],
-                nameItem: ''
+                nameItem: '',
+                wait: false,
+                success: false,
+                error: false,
             }
         },
         methods: {
             addItem() {
+                this.wait = true;
                 let memberData = {
                     appId: this.appId,
                     nameItem: this.nameItem
                 };
                 axios.post('/api/items', memberData).then(response => {
+                    this.wait = false;
                     if (response.data.success === 1) {
-                        this.$store.dispatch('getItems')
-                    } else if (response.data.success === 0){
-                        console.log(response.data)
+                        this.$store.dispatch('getItems');
+                        this.success = true;
+                        setTimeout(() => {
+                            this.success = false;
+                        }, 2000);
+                    } else if (response.data.success === 0) {
+                        this.error = true;
+                        setTimeout(() => {
+                            this.error = false;
+                        }, 2000);
                     } else {
                         console.log('Unknown error')
                     }
                 })
             },
             startParser() {
+                this.wait = true;
                 axios.get('/api/parser').then(response => {
-                    console.log('OK')
-                })
+                    this.wait = false;
+                    if (response.data.success === 1) {
+                        this.success = true;
+                        setTimeout(() => {
+                            this.success = false;
+                        }, 2000);
+                    } else if (response.data.success === 0) {
+                        this.error = true;
+                        setTimeout(() => {
+                            this.error = false;
+                        }, 2000);
+                    } else {
+                        console.log('Unknown error')
+                    }
+                });
+
             }
         }
     }
